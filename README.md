@@ -93,19 +93,6 @@ Strato Nimbus adalah aplikasi web edukasional untuk mengecek kondisi cuaca secar
    - Halaman tentang: http://localhost:4000/tentang
    - Endpoint API: http://localhost:4000/infoCuaca?address=Jakarta
 
-## Konsep Clean Code yang diterapkan (ringkasan dalam Bahasa Indonesia)
-- Hindari menyimpan kunci/rahasia di kode sumber; baca dari variabel lingkungan (`WEATHERSTACK_KEY`).
-- Konsistensi nama variabel, komentar, dan struktur file untuk keterbacaan.
-- Ekstrak "magic values" (contoh: TTL cache) sebagai konstanta di modul terkait.
-- Tangani error eksternal dengan fallback dan pesan yang jelas untuk pengguna.
-- Gunakan caching singkat untuk mengurangi risiko rate limit.
-- Simpan styling di berkas CSS (hindari inline style bila memungkinkan).
-
-## Perluasan yang direkomendasikan
-- Tambahkan ESLint dan konfigurasinya, jalankan autofix, dan perbaiki masalah yang tersisa.
-- Tambahkan tes unit untuk `geocode` dan `prediksiCuaca`.
-- Tambahkan `.env.example` untuk membantu pengaturan variabel lingkungan.
-
 ## Testing & linting
 - Jalankan tes unit (Jest):
    ```powershell
@@ -159,10 +146,3 @@ sequenceDiagram
    end
    S-->>C: 200 { prediksiCuaca }
 ```
-
-Jika Mermaid tidak dirender di viewer Anda, ada fallback SVG yang disertakan: 
-
-![Diagram RESTful - fallback SVG](/img/RESTful_API_small.svg)
-
---
-Dokumentasi ini dibuat otomatis oleh alat bantu pengembangan. Jika Anda ingin saya menerapkan ESLint dan tes unit sekarang, beri tahu dan saya akan mulai menerapkannya secara bertahap.
