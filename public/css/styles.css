@@ -1,0 +1,834 @@
+/*
+  styles.css
+  - Gaya utama untuk aplikasi "Strato Nimbus".
+  - Struktur file:
+    * Variabel root (warna, aksen) didefinisikan lebih jauh di bawah
+    * Area hero / about menggunakan palet gelap dan aksen neon
+    * Komponen terpisah: header, hero, kartu cuaca, grid statistik, footer
+  - Catatan pengembangan (Prinsip Clean Code diterapkan):
+    * Komentar ringkas dan deskriptif pada setiap bagian
+    * Gunakan variabel CSS di :root untuk memudahkan penyesuaian tema
+    * Hindari aturan global yang merusak tata letak; prefer selector spesifik
+  - Catatan performa:
+    * Pertahankan penggunaan gambar responsif (`img { width: auto }`)
+    * Gunakan utilitas kelas untuk spacing agar mudah diulang
+*/
+
+h1 {
+  color: grey;
+}
+
+/* Izinkan gambar menggunakan lebar alaminya agar tidak terdistorsi di komponen */
+img {
+  width: auto; /* Allow images to use their natural width */
+}
+/* Gunakan latar gelap penuh agar tidak muncul 'gutter' putih di tepi layar */
+body {
+  color: var(--text);
+  font-family: 'Inter', Arial, sans-serif;
+  max-width: none; /* use full width */
+  margin: 0; /* full-bleed layout */
+  padding: 0; /* avoid extra white gutters */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #1A1625; /* user-requested body background */
+}
+
+.main-content {
+  flex-grow: 1;
+}
+
+footer {
+  color: rgba(220,235,245,0.65);
+  border-top: 1px solid rgba(255,255,255,0.04);
+  margin-top: 16px;
+  padding: 16px 0;
+}
+
+header {
+  margin-top: 0; /* moved header further up */
+  margin-bottom: 28px;
+}
+
+h1 {
+  font-size: 48px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+header a {
+  color: rgba(255,255,255,0.85);
+  margin-right: 16px;
+  text-decoration: none;
+}
+
+.portrait {
+width: 250px;
+}
+
+input{
+  border: 2px solid #cccccc;
+  padding: 8px;
+}
+
+.about-hero{
+  /* use the requested body-panel color for the about section so it matches the body mid area */
+  background: #1A1625;
+  color: var(--text);
+  padding: 48px 0 60px;
+  position: relative; /* allow absolute positioning of hero-image */
+}
+.about-hero .text-primary { color: var(--accent); }
+.hero-left { max-width: none; }
+
+/* ----- Polished, focused styles for templates/tentang.hbs ----- */
+:root{
+  /* Dark neon theme: deep purples with cyan & magenta accents */
+  --bg-start: #0b0711; /* very dark purple */
+  --bg-end: #141024;   /* deep indigo */
+  --surface: #12101a;  /* panel surface */
+  --muted: rgba(200,220,230,0.22);
+  --primary: #00d1ff;  /* cyan accent */
+  --accent: #b453ff;   /* magenta/purple accent */
+  --text: #dbefff;     /* soft cyan-white text */
+  --shadow: 0 10px 30px rgba(3,8,20,0.6);
+}
+
+/*
+  Latar halaman
+  - Gradien full-viewport diterapkan pada elemen `html` agar latar mengisi seluruh kanvas
+  - Konten utama tetap diletakkan di container yang terpusat untuk keterbacaan
+*/
+html{
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(30,10,40,0.35), transparent 15%),
+              linear-gradient(135deg, var(--bg-start), var(--bg-end));
+}
+
+/* Konten utama
+  - Pastikan area utama terlihat jelas dan nyaman dibaca
+  - Container diatur agar tidak memblok seluruh lebar layar apabila diperlukan */
+.main-content{
+  width: 100%;
+  max-width: none;
+  background: transparent; /* let sections provide surface or be full-bleed */
+  padding: 0; /* sections control spacing */
+  margin-top: 0; /* remove gap above header to raise it */
+}
+
+/* Seksi hero (full-bleed)
+   - Seksi about/hero menggunakan lebar penuh agar tampilan lebih dramatis
+   - Padding atas dikurangi agar judul halaman terlihat dekat dengan hero */
+section#aboutme{
+  padding: 12px 0 8px;
+  margin: 0 0 12px 0;
+}
+
+/* Gaya hero gelap (didefinisikan sebelumnya) */
+
+.display-3 { font-size: clamp(2rem, 5.5vw, 3.6rem); line-height: 1.02; color: var(--text); margin: 0; }
+.fw-semibold { font-weight: 600; }
+.lead { font-size: 1.125rem; color: rgba(255,255,255,0.8); }
+
+/* Gambar hero dan elemen dekoratif
+  - Foto hero diberi border-radius dan bayangan untuk menonjol
+  - Elemen dekoratif (`.img-decor`) disembunyikan di implementasi ini tetapi tersedia bila diperlukan */
+.hero-image { position: relative; display: flex; justify-content: flex-end; align-items: center; overflow: visible; }
+.hero-photo { border-radius: 12px !important; width: 100%; height: auto; max-width: 380px; display: block; position: relative; z-index: 2; box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 30px rgba(0,209,255,0.06); }
+.img-decor { display: none !important; }
+
+.hero-illustration { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; }
+.weather-ring { width: 360px; height: 360px; border-radius: 50%; display:flex; align-items:center; justify-content:center; background: radial-gradient(circle at 30% 30%, rgba(0,209,255,0.08), transparent 18%), linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.08)); box-shadow: 0 14px 40px rgba(3,8,20,0.6), inset 0 0 40px rgba(0,209,255,0.06); }
+.weather-emoji { font-size: 5rem; color: var(--primary); line-height: 1; }
+.current-readout { text-align:center; margin-top: 8px; }
+.current-readout .temp { font-weight:700; font-size: 1.75rem; color: var(--text); }
+.current-readout .condition { color: rgba(255,255,255,0.78); font-size: 0.95rem; margin-top: 4px; }
+
+@media (max-width: 991.98px){
+  .img-decor { display: none; }
+}
+
+/* Tata letak untuk layar besar
+  - Kolom teks dibuat lebih lebar sementara gambar diletakkan di sisi kanan */
+@media (min-width: 992px){
+  /* Perluas pasangan hero agar sejajar dengan container terpusat
+    sehingga tepi kanan gambar sejajar dengan header/navigation */
+  .container-inner { max-width: 1100px; }
+  .row { display: flex !important; flex-wrap: nowrap !important; align-items: center; justify-content: space-between; }
+  /* Kurangi lebar teks sedikit agar memberi ruang untuk gambar yang lebih lebar di sisi kanan */
+  .hero-left { flex: 0 0 56% !important; max-width: 76% !important; padding-right: 28px; }
+  /* Letakkan gambar hero di sisi kanan container dan tingkatkan lebar maksimalnya */
+  .hero-image { position: relative !important; top: auto !important; right: auto !important; width: auto !important; flex: 0 0 42% !important; max-width: 460px !important; z-index: 10; display: flex; justify-content: center; }
+  .hero-photo { max-width: 460px !important; width: 100% !important; }
+  .hero-illustration { flex: 0 0 42% !important; max-width: 460px !important; }
+
+/* Panel pencarian (homepage)
+  - Panel pencarian responsif dengan input dan tombol kirim
+  - Gunakan wrapper untuk meletakkan ikon dan input secara rapi */
+.search-panel { background: rgba(35,24,50,0.15); padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); display:flex; align-items:center; }
+.search-form { display:flex; gap: 12px; width:100%; }
+.search-input-wrap { display:flex; align-items:center; gap:10px; flex:1; background: rgba(0,0,0,0.12); padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.03); }
+.search-icon { color: var(--primary); font-size: 1.05rem; }
+.search-input { background: transparent; border: 0; outline: none; color: var(--text); width: 100%; font-size: 1rem; }
+
+.search-form .btn {
+  transition: background 180ms ease, color 180ms ease, transform 120ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  will-change: transform, background, box-shadow;
+}
+.search-form .btn:hover {
+  background: var(--primary);
+  color: #231832; /* match header background for readable contrast */
+  border-color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 34px rgba(0,209,255,0.12), 0 2px 8px rgba(0,0,0,0.45);
+}
+.search-form .btn {
+  transition: background 180ms ease, color 180ms ease, transform 120ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  will-change: transform, background, box-shadow;
+}
+.search-form .btn:hover {
+  background: var(--primary);
+  color: #231832; /* match header background for readable contrast */
+  border-color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 34px rgba(0,209,255,0.12), 0 2px 8px rgba(0,0,0,0.45);
+}
+/* pressed while mouse/touch held or when JS adds .is-pressed */
+.search-form .btn:active,
+.search-form .btn.is-pressed {
+  transform: translateY(0);
+  box-shadow: inset 0 6px 18px rgba(0,0,0,0.45), 0 6px 18px rgba(0,0,0,0.25);
+  background: linear-gradient(180deg, #00bfe8, #00a6cc);
+  color: #071019;
+  border-color: rgba(0,150,190,0.98);
+}
+/* while waiting for the server, indicate submitting state and disable pointer events */
+.search-form .btn.is-submitting {
+  pointer-events: none;
+  opacity: 0.95;
+  transform: translateY(0);
+  box-shadow: inset 0 6px 18px rgba(0,0,0,0.5);
+  background: linear-gradient(180deg, rgba(0,209,255,0.12), rgba(0,209,255,0.06));
+  color: var(--text);
+}
+.search-form .btn:focus-visible { outline: 3px solid rgba(0,209,255,0.14); outline-offset: 3px; }
+
+/* Generalize lively interactions and ripple support to all main buttons/links */
+.btn, .btn-pill, .btn-contact, .btn-primary, .nav-links a, .site-logo {
+  position: relative; /* needed so ripple can be positioned absolute inside */
+  overflow: hidden;   /* clip the ripple */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Make the site logo behave like an interactive control (clickable, focusable) */
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 6px 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 140ms ease, background 160ms ease;
+}
+.site-logo:hover { transform: translateY(-2px); }
+
+/* Logo kecil di header (ikon + teks) */
+.site-logo-icon { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:8px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06)); box-shadow: 0 4px 14px rgba(0,0,0,0.35); padding:4px; }
+.site-logo-text { font-weight:700; color: var(--text); }
+
+/* Efek ripple pada klik (visual feedback)
+  - Elemen `.ripple` dibuat dinamis lewat JS pada elemen yang di-klik */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: scale(0);
+  opacity: 0.9;
+  background: rgba(255,255,255,0.18);
+  animation: ripple 560ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Darker ripple for light text on cyan backgrounds (applies when element has .ripple-dark) */
+.ripple.ripple-dark { background: rgba(0,0,0,0.18); }
+
+@keyframes ripple {
+  to {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+.weather-card { display:flex; align-items:center; justify-content:space-between; padding: 26px 28px; border-radius: 10px; background: linear-gradient(180deg, rgba(180,140,100,0.14), rgba(70,40,30,0.06)); border: 1px solid rgba(255,255,255,0.03); box-shadow: 0 12px 30px rgba(0,0,0,0.25); }
+.weather-left { color: var(--text); }
+.weather-location { color: rgba(255,255,255,0.9); margin-bottom: 6px; font-weight:600; }
+.weather-temp { font-size: 3.6rem; font-weight:700; color: #f7c34a; }
+.weather-temp .deg { font-size: 0.6em; }
+.weather-desc { color: rgba(255,255,255,0.78); margin-top: 6px; }
+.weather-right .weather-icon { font-size: 5.25rem; opacity: 0.95; }
+
+.weather-icon img.weather-img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  display: block;
+}
+
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 18px; }
+.stat-card { background: rgba(35,24,50,0.18); border: 1px solid rgba(255,255,255,0.03); padding: 18px; border-radius: 10px; color: var(--text); display:flex; align-items:center; gap:12px; }
+.stat-icon { width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; background: rgba(0,0,0,0.12); color: var(--primary); font-size:1.05rem; }
+.stat-label { color: rgba(255,255,255,0.8); font-size: 0.95rem; }
+.stat-value { margin-left:auto; font-weight:700; color: var(--text); }
+
+.readout-row { display:grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+.readout-box { background: rgba(35,24,50,0.12); padding: 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.03); display:flex; align-items:center; gap:14px; }
+.readout-icon { width:56px; height:56px; border-radius: 10px; display:flex; align-items:center; justify-content:center; background: rgba(0,0,0,0.08); color: var(--primary); font-size:1.25rem; }
+.readout-label { color: rgba(255,255,255,0.78); }
+.readout-value { margin-left:auto; font-weight:700; font-size:1.5rem; }
+
+@media (max-width: 991.98px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .readout-row { grid-template-columns: 1fr; }
+  .weather-card { flex-direction: column; align-items:flex-start; gap: 12px; }
+  .weather-right { align-self:center; }
+}
+  /* keep the decorative frame sized inside hero-image */
+  .hero-image .img-decor { right: -10px; bottom: -10px; width: calc(100% + 20px); height: calc(100% + 20px); }
+
+  /* Slightly push the left column content to the right and increase vertical rhythm */
+  .hero-left { padding-left: 36px !important; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+  .hero-left .text-primary { display: block; margin-bottom: 6px; }
+  .hero-left .display-3 { margin-top: 0; margin-bottom: 12px; line-height: 1.02; }
+  .hero-left .lead { margin-top: 6px; margin-bottom: 18px; }
+  .hero-left .btn { margin-top: 6px; }
+}
+
+/* Header situs (tema gelap)
+  - Header dibuat sticky agar navigasi selalu tersedia
+  - Gunakan backdrop-filter untuk efek blur halus */
+.site-header{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #231832; /* header background as requested */
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.site-header .site-header-inner{ display:flex; align-items:center; justify-content:space-between; padding:18px 0; }
+.site-logo{ font-weight:700; color: var(--text); font-family: 'Inter', Arial, sans-serif; font-size: 1.125rem; }
+.nav-links a{ color: rgba(0,209,255,0.92); margin-left:28px; text-decoration:none; font-size: 1rem; padding:4px 6px; }
+.nav-links a:hover{ color: var(--accent); }
+
+/* Pill-style navigation tabs */
+.nav-links { display: flex; gap: 12px; align-items: center; }
+.nav-links a { display: inline-flex; align-items: center; gap: 10px; padding: 6px 14px; border-radius: 16px; text-decoration: none; color: rgba(255,255,255,0.85); background: transparent; transition: all 160ms ease; font-weight: 600; }
+.nav-links a .nav-icon { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; font-size: 0.95rem; color: var(--primary); background: rgba(255,255,255,0.02); }
+.nav-links a .nav-label{ display:inline-block; }
+.nav-links a:hover { transform: translateY(-2px); }
+.nav-links a.active { background: var(--primary); color: #231832; box-shadow: 0 8px 22px rgba(0,0,0,0.28); }
+.nav-links a.active .nav-icon { background: transparent; color: #231832; }
+
+/* Slightly larger pill for the active item to match screenshot */
+.nav-links a.active { padding: 8px 16px; border-radius: 20px; }
+
+/* Slightly larger header on very wide screens */
+@media (min-width: 1400px) {
+  .site-header .site-header-inner{ padding:22px 0; }
+  .site-logo{ font-size: 1.35rem; }
+  .nav-links a{ font-size: 1.15rem; margin-left:32px; }
+}
+
+/* Mobile: keep header compact */
+@media (max-width: 767.98px) {
+  .site-header .site-header-inner{ padding:10px 0; }
+  .site-logo{ font-size: 0.98rem; }
+  .nav-links a{ font-size: 0.95rem; margin-left:12px; padding:6px 8px; }
+}
+
+/* Page title shown under the nav (page-specific) */
+.page-heading { padding: 0; margin: 0 auto 8px; border-bottom: 0; }
+.page-title {
+  text-align: center;
+  color: var(--text);
+  /* match the visual weight and scale of the about-app title */
+  font-size: clamp(1.6rem, 3.6vw, 2.4rem);
+  margin: 0 0 12px;
+  font-weight: 700;
+  line-height: 1.05;
+}
+.page-title .accent { color: var(--primary); }
+
+/* Footer styling */
+.site-footer{ background:#231832; color: rgba(255,255,255,0.85); padding:14px 0; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.04); }
+.site-footer .footer-inner{ text-align:center; }
+
+/* Make sure text in hero inherits light color */
+.about-hero, .about-hero h1, .about-hero p, .about-hero a { color: inherit; }
+
+/* inner container can still constrain content width */
+.container-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Layout container (keeps the template comfortable on large screens) */
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -8px;
+}
+
+.col-12 { flex: 0 0 100%; max-width: 100%; padding: 0 8px; }
+.col-md-6, .col-lg-6 { flex: 0 0 50%; max-width: 50%; padding: 0 8px; }
+.col-xl-5 { flex: 0 0 41.666667%; max-width: 41.666667%; padding: 0 8px; }
+.col-xl-6 { flex: 0 0 50%; max-width: 50%; padding: 0 8px; }
+.offset-xl-1 { margin-left: 8.333333%; }
+
+/* Stack columns on smaller screens for better mobile layout */
+@media (max-width: 767.98px){
+  .col-md-6, .col-lg-6, .col-xl-5, .col-xl-6 { flex: 0 0 100%; max-width: 100%; }
+  .ms-lg-5 { margin-left: 0.5rem; }
+}
+
+/* Utilitas / fungsi pembantu kecil */
+.d-flex { display: flex !important; }
+.align-items-center { align-items: center !important; }
+
+.img-fluid { max-width: 100%; height: auto; display: block; }
+
+/* Berita page: force vertical stacking by default (cards flow down, not sideways) */
+/* Berita area: override the global .row flex layout and force a CSS grid
+   limiting to 2 columns maximum. This prevents horizontal overflow and
+   ensures cards wrap to the next row after 2 columns. */
+#news-container .row,
+#news-grid {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+/* Ensure immediate children act as grid items (take full cell) */
+#news-container .row > div,
+#news-grid > div {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: none !important;
+  padding: 0 !important;
+}
+
+/* At wider viewports, show up to 2 columns then wrap */
+@media (min-width: 900px) {
+  #news-container .row,
+  #news-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+/* keep hero and image balanced inside the grid cell when present */
+#news-container .hero-left,
+#news-container .hero-image { width: 100% !important; }
+
+/* News card general look */
+.news-card {
+  background: rgba(35,24,50,0.14);
+  border-radius: 12px;
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* Refresh button style that matches the "Baca Selengkapnya" look */
+.btn-refresh {
+  /* match metrics and visuals of .btn and .btn-primary */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 100px;
+  height: 40px;
+  padding: 0.35rem 1rem;
+  border-radius: 10px;
+  box-sizing: border-box;
+  background: rgba(35,24,50,0.35);
+  color: var(--primary);
+  border: 2px solid rgba(0,209,255,0.92);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 140ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+.btn-refresh:hover { transform: translateY(-1px); background: rgba(35,24,50,0.55); }
+.btn-refresh:active { transform: translateY(0); box-shadow: inset 0 6px 18px rgba(0,0,0,0.45); }
+.btn-refresh:focus { outline: 3px solid rgba(0,209,255,0.12); outline-offset: 2px; }
+
+/* Small spinner inside buttons */
+.btn-refresh .spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.12);
+  border-top-color: var(--primary);
+  display: none; /* shown only when loading */
+}
+.btn-refresh.is-loading .spinner { display: inline-block; margin-right: 6px; animation: spin 800ms linear infinite; }
+.btn-refresh.is-loading .btn-text { opacity: 0.9; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.rounded-4 { border-radius: 0.5rem; }
+
+/* Circular profile framing */
+.rounded-circle { border-radius: 50% !important; }
+.profile-size { width: 240px; height: 240px; object-fit: cover; }
+.shadow-circle { box-shadow: 0 22px 60px rgba(20,30,48,0.18); }
+
+.position-relative { position: relative; }
+.position-absolute { position: absolute; }
+.top-0 { top: 0; }
+.mt-1 { margin-top: 0.25rem; }
+.ms-3 { margin-left: 1rem; }
+.ms-4 { margin-left: 1.5rem; }
+.ms-lg-5 { margin-left: 3rem; }
+
+/* Spacing utilities used in the template */
+.py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+@media (min-width: 768px) { .py-md-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; } }
+@media (min-width: 992px) { .py-lg-18 { padding-top: 4.5rem; padding-bottom: 4.5rem; } }
+.mb-5 { margin-bottom: 3rem; }
+.mb-6 { margin-bottom: 3.5rem; }
+
+.text-primary { color: var(--primary); }
+
+/* Button: improved visuals + accessible focus/hover states */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.35rem 1rem;
+  border-radius: 28px;
+  text-decoration: none;
+  font-weight: 600;
+  min-width: 100px;
+  height: 40px;
+  box-sizing: border-box;
+}
+.btn-primary {
+  /* Dark inner fill with cyan border and cyan text to match the provided image */
+  background: rgba(35,24,50,0.35);
+  color: var(--primary);
+  border: 2px solid rgba(0,209,255,0.92);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  background: rgba(35,24,50,0.55);
+  color: var(--primary);
+}
+.btn-primary:focus {
+  outline: 3px solid rgba(0,209,255,0.12);
+  outline-offset: 2px;
+}
+
+/* Pill-outline variant used on the About (Tentang) hero — matches the cyan outline pill in the screenshot */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.4rem;
+  border-radius: 999px; /* fully pill */
+  text-decoration: none;
+  font-weight: 700;
+  min-width: 110px;
+  height: 44px;
+  background: rgba(35,24,50,0.18); /* subtle dark interior */
+  color: rgba(0,209,255,0.98); /* bright cyan text */
+  border: 3px solid rgba(0,209,255,0.95); /* slightly heavier outline to match example */
+  box-shadow: 0 10px 28px rgba(0,0,0,0.45), 0 0 18px rgba(0,209,255,0.06) inset;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+.btn-pill:hover{
+  transform: translateY(-2px);
+  background: rgba(35,24,50,0.34);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.5), 0 0 30px rgba(0,209,255,0.08) inset;
+}
+.btn-pill:focus{
+  outline: 3px solid rgba(0,209,255,0.14);
+  outline-offset: 3px;
+}
+
+/* subtle image treatment in the about section */
+.position-relative img { max-width: 100%; height: auto; display: block; border-radius: 8px; box-shadow: 0 6px 20px rgba(20,30,48,0.06); }
+
+/* small type/contrast improvements */
+body, p { color: var(--text); line-height: 1.6; }
+
+/* Utilities for centering and stronger profile shadow */
+.mx-auto { display: block; margin-left: auto; margin-right: auto; }
+.justify-center { justify-content: center !important; }
+.shadow-profile { box-shadow: 0 16px 40px rgba(20,30,48,0.14); }
+
+/* Application info displayed under the hero on tentang.hbs */
+.about-app-info {
+  text-align: center;
+  margin: 22px auto 0;
+  padding: 12px 18px 10px;
+  max-width: 880px;
+  background: #231832; /* boxed background color as requested */
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 8px;
+}
+
+.about-app-title {
+  font-size: clamp(1.6rem, 3.6vw, 2.4rem);
+  margin: 0 0 8px;
+  color: var(--text);
+  font-weight: 700;
+}
+.about-app-title .accent { color: var(--primary); }
+
+.about-app-subtitle {
+  margin: 0 auto;
+  color: rgba(255,255,255,0.78);
+  font-size: 1rem;
+  max-width: 720px;
+  line-height: 1.6;
+}
+
+@media (max-width: 767.98px) {
+  .about-app-info { margin: 16px 12px 0; padding: 10px 12px; }
+  .about-app-subtitle { font-size: 0.98rem; }
+}
+
+/* On small screens avoid negative overlap with the sticky header */
+@media (max-width: 767.98px) {
+  .page-heading { margin-top: 0; }
+}
+
+/* End polished extracted styles for tentang.hbs */
+
+/* Help page styles */
+/* Help page hero: reduce top padding so the page title sits higher under the sticky header */
+.help-hero { padding: 0px 0 40px; }
+.help-title { text-align:center; font-size:2rem; margin-bottom:8px; color:var(--muted); }
+.help-sub { text-align:center; color:rgba(255,255,255,0.75); margin-bottom:28px }
+.faq { background: #231832; padding:18px; border-radius:10px; margin-bottom:28px; border: 1px solid rgba(255,255,255,0.03); }
+.faq h3 { margin:0 0 12px 0; color:var(--text) }
+.faq details { background:rgba(255,255,255,0.02); border-radius:8px; margin:8px 0; padding:12px }
+.faq summary { cursor:pointer; list-style:none; font-weight:600; color:var(--text); }
+.faq summary::-webkit-details-marker { display:none }
+.detail-body { margin-top:8px; color:rgba(255,255,255,0.75); line-height:1.5 }
+
+/* FAQ animation variables and summary chevron */
+.faq {
+  --faq-duration: 300ms;
+  --faq-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+.faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+/* explicit SVG chevron placed inside the summary for crisper rendering */
+.faq summary .chev {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  flex: 0 0 18px;
+  margin-left: 8px;
+  transition: transform var(--faq-duration) var(--faq-ease), opacity var(--faq-duration) var(--faq-ease);
+  opacity: 0.95;
+  transform-origin: 50% 50%;
+}
+.faq details[open] summary .chev { transform: rotate(180deg); }
+
+/* Utility: visually-hidden for screen-reader-only content */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%);
+  white-space: nowrap; border: 0;
+}
+
+.help-contact { margin-top:28px }
+.help-contact h3 { color:var(--text); }
+.contact-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; margin-top:14px }
+.contact-card { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); padding:18px; border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,0.25); display:flex; flex-direction:column; }
+.contact-top { display:flex; align-items:center; gap:12px; margin-bottom:8px }
+.contact-top .icon { font-size:20px; background: rgba(255,255,255,0.03); padding:8px; border-radius:8px }
+.contact-title { font-weight:700; color:var(--text) }
+.contact-body { color:rgba(255,255,255,0.75); margin:8px 0; flex:1 }
+.contact-action { text-align:left }
+.contact-action { text-align:left }
+
+/* Pill button base (used by .btn-pill and alias .btn-contact) */
+.btn-pill,
+.btn-contact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.4rem;
+  border-radius: 999px; /* fully pill */
+  text-decoration: none;
+  font-weight: 700;
+  min-width: 110px;
+  height: 44px;
+  background: rgba(35,24,50,0.18); /* subtle dark interior */
+  color: #ffffff; /* white by default; becomes cyan on hover */
+  border: 3px solid rgba(0,209,255,0.95); /* slightly heavier outline to match example */
+  box-shadow: 0 10px 28px rgba(0,0,0,0.45), 0 0 18px rgba(0,209,255,0.06) inset;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+.contact-action .btn-pill,
+.contact-action .btn-contact { padding:10px 22px }
+
+/* Variants: pick one on the element to tune visual weight */
+.btn-pill--glow {
+  border-width: 3px;
+  box-shadow: 0 18px 44px rgba(0,209,255,0.12), 0 6px 22px rgba(0,0,0,0.5);
+}
+.btn-pill--thick {
+  border-width: 4px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 28px rgba(0,209,255,0.08) inset;
+}
+.btn-pill--soft {
+  border-width: 2px;
+  background: rgba(35,24,50,0.08);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* Hover & focus states shared */
+.btn-pill:hover,
+.btn-contact:hover {
+  transform: translateY(-2px);
+  background: rgba(35,24,50,0.34);
+  color: var(--primary); /* switch text to cyan on hover */
+  box-shadow: 0 14px 36px rgba(0,0,0,0.5), 0 0 30px rgba(0,209,255,0.08) inset;
+}
+
+/* Better keyboard focus: use focus-visible for accessibility */
+.btn-pill:focus-visible,
+.btn-contact:focus-visible {
+  outline: 3px solid rgba(0,209,255,0.22);
+  outline-offset: 3px;
+  color: var(--primary); /* also show cyan on keyboard focus */
+}
+
+.tips-box {
+  margin-top: 22px;
+  border-radius: 8px;
+  padding: 18px;
+  background: #231832; /* use same boxed background as about-app-info */
+  border: 1px solid rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.9);
+}
+.tips-box h4 { margin-top: 0 }
+.tips-box ul { margin: 0; padding-left: 20px }
+
+@media (max-width:768px) {
+  /* keep a bit more breathing room on small screens but still raise the title */
+  .help-hero { padding: 12px 0 28px }
+}
+
+/* Modal untuk live chat (jendela obrolan) */
+
+/* Profile panels used on tentang.hbs */
+.profile-panels { display: block; margin-top: 18px; }
+.profile-panels .panel { background: #231832; border: 1px solid rgba(255,255,255,0.03); border-radius: 12px; padding: 18px; margin-bottom: 16px; }
+.profile-panels .panel h3 { color: var(--text); font-size: 1.05rem; margin-bottom: 8px; }
+.skills-tags { display:flex; flex-wrap:wrap; gap:8px; }
+.skill { background: rgba(255,255,255,0.02); color: var(--primary); padding:6px 10px; border-radius:999px; font-weight:700; font-size:0.85rem; border:1px solid rgba(0,209,255,0.06); }
+.timeline-item { margin-bottom:12px; }
+.timeline-item strong { display:block; color:var(--text); font-size:1rem; }
+.timeline-item .muted { color: rgba(255,255,255,0.65); font-size:0.92rem; margin-bottom:6px; }
+
+/* Timeline / Pengalaman Kerja enhancements */
+.profile-panels.timeline-panel { position: relative; }
+.profile-panels.timeline-panel::before {
+  /* removed long vertical line — use per-item connectors instead */
+  display: none;
+}
+.timeline-item { position: relative; padding-left: 56px; margin-bottom: 22px; }
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fff 8%, transparent 9%), linear-gradient(180deg, #9b59ff, #6f2bd8);
+  box-shadow: 0 0 0 4px rgba(155,89,255,0.06), 0 2px 6px rgba(0,0,0,0.4);
+}
+.timeline-item strong { display: block; color: #fff; font-size: 16px; margin-bottom: 6px; }
+.timeline-item .muted { color: rgba(255,255,255,0.6); font-size: 13px; margin-bottom: 8px; }
+.timeline-item .company { color: #ffbf00; font-weight: 600; }
+.timeline-item .date { color: rgba(255,255,255,0.55); font-size: 12px; margin-left: 8px; }
+.timeline-item p { color: rgba(255,255,255,0.75); margin: 0; line-height: 1.6; }
+.timeline-item::after {
+  /* short connector line from marker down through the item */
+  content: '';
+  position: absolute;
+  left: 20px; /* align under marker center */
+  top: 24px; /* a bit below the marker */
+  width: 2px;
+  height: calc(100% - 28px);
+  background: linear-gradient(180deg, rgba(180,83,255,0.95), rgba(140,60,230,0.9));
+  border-radius: 1px;
+  opacity: 0.95;
+}
+.profile-panels ul { margin:0; padding-left:18px; color: rgba(255,255,255,0.85); }
+
+@media (min-width: 992px) {
+  /* On wide screens keep panels stacked but allow a two-column grid if desired later */
+  .profile-panels { max-width: 1140px; margin-left: auto; margin-right: auto; }
+}
+
+/* Keahlian panel header and badge polish */
+.panel-header { display:flex; align-items:center; gap:14px; margin-bottom:6px; }
+.panel-icon { width:44px; height:44px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; background: linear-gradient(180deg, rgba(0,209,255,0.06), rgba(0,209,255,0.02)); border: 1px solid rgba(0,209,255,0.12); box-shadow: 0 6px 18px rgba(0,0,0,0.35); color: var(--primary); }
+.panel-header h3 { margin:0; font-size:1.15rem; font-weight:700; }
+.skills-tags { margin-top:8px; gap:10px; }
+.skill { background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02)); color: var(--primary); padding:8px 12px; border-radius:999px; font-weight:700; font-size:0.9rem; border:1px solid rgba(0,209,255,0.18); box-shadow: 0 6px 18px rgba(0,0,0,0.45); }
+.skill:hover { transform: translateY(-2px); }
+
+/* Education-specific styling */
+.panel-icon.edu { background: linear-gradient(180deg, rgba(34,197,94,0.08), rgba(34,197,94,0.04)); border: 1px solid rgba(34,197,94,0.12); color: #1ed760; }
+.panel-icon.work { background: linear-gradient(180deg, rgba(155,89,255,0.08), rgba(155,89,255,0.04)); border: 1px solid rgba(155,89,255,0.12); color: #b453ff; }
+.education-item { margin-top: 8px; }
+.education-item strong { display:block; color: #fff; font-size: 1rem; margin-bottom:6px; }
+.edu-institution { color: #ffbf00; font-weight:600; display:inline-block; margin-bottom:6px; }
+.education-meta { color: rgba(255,255,255,0.6); font-size: 13px; margin-top:8px; display:flex; align-items:center; gap:8px; }
+.education-meta .meta-dot { color: rgba(255,255,255,0.5); margin:0 6px; }
+.education-meta .ipk { color: rgba(255,255,255,0.75); font-weight:600; }
+
+/* Prestasi & Sertifikasi list styling */
+.panel-icon.cert { background: linear-gradient(180deg, rgba(59,130,246,0.08), rgba(59,130,246,0.04)); border: 1px solid rgba(59,130,246,0.12); color: #38bdf8; }
+.cert-list { list-style: none; margin: 6px 0 0 0; padding-left: 12px; }
+.cert-list li { position: relative; padding-left: 22px; margin: 10px 0; color: rgba(255,255,255,0.9); }
+.cert-list li::before { content: ''; position: absolute; left: 0; top: 7px; width: 10px; height: 10px; border-radius: 50%; background: linear-gradient(180deg, #60a5fa, #3b82f6); box-shadow: 0 2px 6px rgba(59,130,246,0.18); }
+.modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 2000; }
+.modal[aria-hidden="false"] { display: flex; }
+.modal-backdrop { position:absolute; inset:0; background: rgba(0,0,0,0.6); }
+.modal-panel { position: relative; background: var(--panel); border-radius: 12px; padding: 18px; width: 520px; max-width: 94%; z-index: 2; box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,0.04); }
+.modal-header { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.modal-body { margin-top:12px; color: rgba(255,255,255,0.9); }
+.chat-window { min-height:120px; background: rgba(255,255,255,0.02); border-radius:8px; padding:12px; margin-top:8px }
+
+/* Icon sizing in contact cards */
+.contact-top .icon svg { width:22px; height:22px; display:block }
+
+/* Fungsi pembantu animasi accordion: menganimasikan bagian detail */
+.faq details .detail-body { overflow: hidden; transition: max-height var(--faq-duration) var(--faq-ease), opacity calc(var(--faq-duration) / 1.2) var(--faq-ease); max-height: 0; opacity: 0; }
+.faq details[open] .detail-body { max-height: 400px; opacity: 1; }

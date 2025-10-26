@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+  {{>head}}
+  <body>
+    <!--
+      Halaman 404: Menampilkan pesan ketika rute tidak ditemukan.
+      - Tampilan sederhana, fokus pada navigasi kembali atau bantuan.
+      - Pertahankan gaya konsisten dengan halaman lain (partial header/footer).
+    -->
+    <div class="main-content">
+      {{>header}}
+
+      <div class="page-heading">
+        <div class="container">
+          <h1 class="page-title">404 <span class="accent">Tidak Ditemukan</span></h1>
+        </div>
+      </div>
+
+      <section class="about-hero" style="padding-top:200px;">
+        <div class="container container-inner">
+          <div style="display:flex; justify-content:center;">
+            <div style="max-width:720px; width:100%; text-align:center;">
+              <p class="lead" style="font-size:1.125rem; margin-bottom:20px;">Sepertinya halaman yang Anda cari tidak ada atau telah dipindahkan.</p>
+
+              <div style="display:flex; gap:14px; justify-content:center; align-items:center;">
+                <a class="btn btn-pill" href="/" aria-label="Kembali ke Beranda">Kembali ke Beranda</a>
+                <a class="btn btn-contact" href="/bantuan" aria-label="Buka halaman bantuan">Butuh Bantuan?</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    {{>footer}}
+  </body>
+</html>

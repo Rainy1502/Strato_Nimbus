@@ -1,0 +1,16 @@
+<!--
+  Partial: footer.hbs
+  - Menampilkan footer sederhana dengan informasi pengembang.
+  - Jaga agar partial ini ringan; skrip utama dipanggil sekali di footer
+    sehingga aset JS dapat menginisialisasi elemen DOM yang ada pada halaman.
+  - Variabel `nama` disediakan dari server (src/app.js) saat merender view.
+-->
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-inner">
+            <p>Dikembangkan oleh {{nama}}</p>
+        </div>
+    </div>
+</footer>
+<!-- Skrip klien dimuat di footer agar elemen DOM sudah tersedia saat skrip berjalan -->
+<script src="/js/app.js"></script>

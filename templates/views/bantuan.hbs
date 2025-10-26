@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html>
+  {{>head}}
+  <body>
+    <!--
+      Halaman Bantuan / FAQ
+      - Berisi jawaban singkat untuk pertanyaan pengguna dan cara menghubungi tim.
+      - Diagram RESTful dimasukkan di dalam detail 'Apa itu RESTful API?' untuk menjaga konten tetap ringkas.
+      - Perhatikan bahwa aplikasi menggunakan Weatherstack (jika tersedia) dan Open‑Meteo sebagai fallback.
+    -->
+    <div class="main-content">
+      {{>header}}
+
+      <section class="help-hero">
+        <div class="container container-inner">
+          <h1 class="page-title">Pusat Bantuan</h1>
+          <p class="help-sub">Temukan jawaban untuk pertanyaan yang sering diajukan tentang aplikasi Strato Nimbus</p>
+
+          <div class="faq">
+            <h3>Pertanyaan yang Sering Diajukan (FAQ)</h3>
+
+            <details>
+              <summary>Halaman ini digunakan untuk apa?</summary>
+              <div class="detail-body">
+                Halaman ini adalah pusat bantuan untuk aplikasi Strato Nimbus. Pengguna dapat menemukan penjelasan fitur, cara menggunakan pencarian lokasi, serta informasi tentang data cuaca yang disajikan (suhu, kelembapan, kecepatan angin, visibilitas, indeks UV).
+              </div>
+            </details>
+
+            <details>
+              <summary>Apa itu API?</summary>
+              <div class="detail-body">
+                API (Application Programming Interface) adalah sekumpulan aturan yang memungkinkan aplikasi berkomunikasi satu sama lain. Dalam konteks ini, aplikasi mengambil data cuaca dari layanan eksternal melalui permintaan HTTP.
+              </div>
+            </details>
+
+            <details>
+              <summary>API apa yang digunakan dalam aplikasi ini?</summary>
+              <div class="detail-body">
+                Aplikasi ini mengambil data cuaca dari layanan pihak ketiga. Secara default aplikasi mencoba Weatherstack (menggunakan variabel lingkungan jika tersedia); jika layanan utama bermasalah atau mencapai batas kuota, aplikasi akan berusaha menggunakan Open‑Meteo sebagai fallback (tanpa API key). Untuk konversi alamat ke koordinat (geocoding) aplikasi menggunakan layanan publik. Ada juga mekanisme cache singkat di server untuk mengurangi jumlah permintaan ke layanan eksternal.
+              </div>
+            </details>
+
+            <details>
+              <summary>Apa itu RESTful API?</summary>
+              <div class="detail-body">
+                RESTful API adalah gaya arsitektur layanan web yang menggunakan HTTP untuk melakukan operasi seperti mengambil (GET) atau mengirimkan (POST) data. Aplikasi ini berkomunikasi dengan layanan cuaca melalui permintaan HTTP (REST). Aplikasi ini juga menyediakan endpoint internal berbasis HTTP (mis. <code>/infoCuaca?address=...</code>) yang mengembalikan JSON sehingga antarmuka web atau klien lain dapat mengambil data secara RESTful.
+
+                <!-- Diagram tersemat di dropdown untuk menjaga tampilan awal tetap ringkas -->
+                  <figure style="max-width:1200px; margin:1rem auto; text-align:center;">
+                    <img src="/img/RESTful%20API.png" alt="Diagram arsitektur RESTful API" style="max-width:100%; height:auto; border:1px solid #e1e1e1; display:block; margin:0 auto;">
+                  </figure>
+              </div>
+            </details>
+          </div>
+
+          <div class="help-contact">
+            <h3>Masih Butuh Bantuan?</h3>
+            <p>Pilih salah satu cara di bawah ini untuk menghubungi kami:</p>
+
+            <div class="contact-cards">
+              <div class="contact-card">
+                <div class="contact-top">
+                  <div class="icon" aria-hidden="true">
+                    <!-- mail SVG -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M3 8l9 6 9-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5" />
+                    </svg>
+                  </div>
+                  <div class="contact-title">Email</div>
+                </div>
+                <div class="contact-body">Fattan124@gmail.com</div>
+                <div class="contact-action"><a class="btn btn-pill" href="mailto:Fattan124@gmail.com" aria-label="Kirim email ke dukungan">Kirim Email</a></div>
+              </div>
+
+              <div class="contact-card">
+                <div class="contact-top">
+                  <div class="icon" aria-hidden="true">
+                    <!-- phone SVG -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.86 19.86 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.97.32 1.92.61 2.82a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.26-1.26a2 2 0 0 1 2.11-.45c.9.29 1.85.49 2.82.61A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </div>
+                  <div class="contact-title">Telepon</div>
+                </div>
+                <div class="contact-body">+62 812-7512-1335</div>
+                <div class="contact-action"><a class="btn btn-pill" href="tel:+6281275121335" aria-label="Panggil dukungan">Hubungi Kami</a></div>
+              </div>
+              
+              <div class="contact-card">
+                <div class="contact-top">
+                  <div class="icon" aria-hidden="true">
+                    <!-- GitHub mark SVG (simple) -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M12 .5a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.6-4-1.6-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1 1.6-.8 1.9-1.2-.8-.1-1.6-.4-1.6-1.8 0-.4.1-.7.4-1-1.3-.1-2.6-.6-2.6-2.6 0-.6.2-1.1.6-1.5-.1-.2-.3-1.2.1-2.5 0 0 .5-.2 1.6.6a5.6 5.6 0 012.9 0c1-0.8 1.6-.6 1.6-.6.4 1.3.2 2.3.1 2.5.4.4.6.9.6 1.5 0 2-1.3 2.5-2.6 2.6.2.2.3.5.3 1v1.5c0 .3.2.7.8.6A12 12 0 0012 .5z" fill="currentColor"/>
+                    </svg>
+                  </div>
+                  <div class="contact-title">GitHub</div>
+                </div>
+                <div class="contact-body">@Rainy1502</div>
+                <div class="contact-action"><a class="btn btn-pill" href="https://github.com/Rainy1502" target="_blank" rel="noopener" aria-label="Buka profil GitHub">Lihat GitHub</a></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tips-box">
+            <h4>Tips Penggunaan</h4>
+            <ul>
+              <li>Gunakan fitur pencarian untuk menemukan cuaca di kota manapun.</li>
+              <li>Periksa halaman utama untuk melihat pembaruan dan cuaca terbaru.</li>
+              <li>Bookmark halaman ini untuk akses cepat ke informasi cuaca.</li>
+              <li>Data cuaca diperbarui secara real-time untuk akurasi terbaik.</li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+    {{>footer}}
+  </body>
+</html>

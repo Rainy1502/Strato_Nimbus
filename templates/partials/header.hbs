@@ -1,0 +1,35 @@
+<!--
+  Partial: header.hbs
+  - Menampilkan header situs dengan logo dan navigasi utama.
+  - Gunakan atribut aria-label pada logo untuk aksesibilitas.
+  - Navigasi menggunakan teks singkat dan ikon untuk kejelasan visual.
+  - Jika variabel `appName` diberikan, gunakan itu; jika tidak, gunakan 'Strato Nimbus'.
+-->
+<header class="site-header">
+    <div class="container">
+        <div class="site-header-inner">
+            <a class="site-logo" href="/" aria-label="Strato Nimbus - Kembali ke Beranda">
+                <span class="site-logo-icon" aria-hidden="true">
+                    <!-- Simple template SVG logo: cloud + sun motif -->
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+                        <defs>
+                            <linearGradient id="g1" x1="0" x2="1">
+                                <stop offset="0" stop-color="#00d1ff" />
+                                <stop offset="1" stop-color="#b453ff" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M5 16a4 4 0 010-8 5 5 0 0110 0 3.5 3.5 0 01.5 6.98H6a3 3 0 01-1-0.08z" fill="url(#g1)" opacity="0.95" />
+                        <circle cx="17" cy="6" r="2" fill="#ffd166" />
+                    </svg>
+                </span>
+                <span class="site-logo-text">{{#if appName}}{{appName}}{{else}}Strato Nimbus{{/if}}</span>
+            </a>
+            <nav class="nav-links">
+                <a href="/"><span class="nav-icon" aria-hidden="true">🏠</span><span class="nav-label">Home</span></a>
+                <a href="/tentang"><span class="nav-icon" aria-hidden="true">ℹ️</span><span class="nav-label">Tentang</span></a>
+                <a href="/bantuan"><span class="nav-icon" aria-hidden="true">❓</span><span class="nav-label">Bantuan</span></a>
+                <a href="/berita"><span class="nav-icon" aria-hidden="true">📰</span><span class="nav-label">Berita</span></a>
+            </nav>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html>
+  {{>head}}
+  <body>
+    <!--
+      Beranda: panel pencarian dan ringkasan cuaca.
+      - Pencarian menerima parameter address dan memanggil endpoint internal `/infoCuaca`.
+      - Ruang ringkasan (weather-card) menunggu data dan menampilkan pembaruan secara dinamis.
+      - Gunakan atribut aria-live pada elemen deskripsi panjang untuk membantu pembaca layar.
+    -->
+    <div class="main-content">
+      {{>header}}
+
+      <div class="page-heading">
+        <div class="container">
+          <h1 class="page-title">Beranda <span class="accent">Cuaca</span></h1>
+        </div>
+      </div>
+
+      <section id="home" class="about-hero">
+        <div class="container container-inner">
+
+          <!-- Panel pencarian: input alamat/kota -->
+          <div class="search-panel mb-4">
+            <form class="search-form" autocomplete="off" aria-label="Form pencarian lokasi cuaca">
+              <div class="search-input-wrap">
+                <span class="search-icon" aria-hidden="true">📍</span>
+                <input name="address" class="search-input" placeholder="Cari kota atau alamat, mis. Jakarta" aria-label="Masukkan nama kota atau alamat" />
+              </div>
+              <button class="btn btn-primary" type="submit" aria-label="Cari cuaca">Cari</button>
+            </form>
+          </div>
+
+          <!-- Kartu cuaca utama: ringkasan singkat dan ikon besar -->
+          <div class="weather-card mb-4">
+            <div class="weather-left">
+              <div class="weather-location">—</div>
+              <div class="weather-temp">—</div>
+              <div class="weather-desc">Masukkan lokasi untuk melihat cuaca</div>
+              <!-- Jika tersedia, tampilkan deskripsi lengkap untuk pembaca layar -->
+              <div class="weather-full-desc" aria-live="polite" style="display:none"></div>
+            </div>
+            <div class="weather-right">
+              <div class="weather-icon" aria-hidden="true">🌧️</div>
+            </div>
+          </div>
+
+          <!-- Grid statistik kecil: suhu, UV, visibilitas, dsb. -->
+          <div class="stats-grid">
+            <div class="stat-card" data-field="description">
+              <div class="stat-icon" aria-hidden="true">☁️</div>
+              <div class="stat-label">Cuaca</div>
+              <div class="stat-value">—</div>
+            </div>
+            <div class="stat-card" data-field="temperature">
+              <div class="stat-icon" aria-hidden="true">🌡️</div>
+              <div class="stat-label">Suhu</div>
+              <div class="stat-value">—</div>
+            </div>
+            <div class="stat-card" data-field="uv_index">
+              <div class="stat-icon" aria-hidden="true">🔆</div>
+              <div class="stat-label">Indeks UV</div>
+              <div class="stat-value">—</div>
+            </div>
+            <div class="stat-card" data-field="visibility">
+              <div class="stat-icon" aria-hidden="true">🔭</div>
+              <div class="stat-label">Visibilitas</div>
+              <div class="stat-value">—</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+    {{>footer}}
+  </body>
+</html>

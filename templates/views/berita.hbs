@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+  {{>head}}
+  <body>
+    <!--
+      Halaman: Berita
+      - Template ini mengharapkan variabel `news` berupa array artikel dari MediaStack API.
+      - Struktur item (`article`) yang diharapkan (contoh):
+        {
+          title, description, url, image, source, published_at, category
+        }
+      - Jika server tidak menyediakan `news`, tampilan akan menampilkan placeholder.
+      - Desain menggunakan kelas yang ada di `public/css/styles.css` agar sesuai screenshot.
+    -->
+
+    <div class="main-content">
+      {{>header}}
+
+      <div class="page-heading">
+        <div class="container">
+          <h1 class="page-title">Berita <span class="accent">Terkini</span></h1>
+        </div>
+      </div>
+
+      <!-- Alert / diagnostic area: tampilkan error fetch jika ada -->
+      <div class="container" style="margin-top:12px;">
+        {{#if newsError}}
+          <div style="padding:12px; background:rgba(255,80,80,0.06); border:1px solid rgba(255,80,80,0.12); color:#ffd6d6; border-radius:8px;">
+            <strong>Terjadi masalah:</strong> {{newsError}}
+            &nbsp;<a href="/berita?refresh=1" style="color:var(--primary); text-decoration:none; margin-left:12px;">Refresh (bypass cache)</a>
+          </div>
+        {{else}}
+          <!-- Show a Refresh button to force re-fetch (helpful for testing) -->
+          <div style="text-align:right; margin-bottom:8px;">
+            <button id="refresh-btn" class="btn btn-primary btn-refresh" data-page="{{page}}" data-limit="{{limit}}" type="button" aria-live="polite">
+              <span class="spinner" aria-hidden="true"></span>
+              <span class="btn-text">Refresh</span>
+            </button>
+          </div>
+        {{/if}}
+      </div>
+
+      <section class="about-hero">
+        <div class="container container-inner">
+          {{#if news}}
+            {{#if news.length}}
+              <!-- Featured / Hero: artikel pertama -->
+              <div id="news-container">
+              {{#with (lookup news 0) as |hero|}}
+                <div class="row" style="align-items:stretch; gap:18px;">
+                  <div class="hero-left col-xl-6 col-12">
+                    <span class="text-primary">{{hero.source}}</span>
+                    <h2 class="display-3 fw-semibold">{{hero.title}}</h2>
+                    <p class="lead">{{#if hero.description}}{{hero.description}}{{else}}Ringkasan tidak tersedia.{{/if}}</p>
+                    <div style="margin-top:12px;">
+                      <a class="btn btn-primary" href="{{hero.url}}" target="_blank" rel="noopener noreferrer">Baca Selengkapnya</a>
+                    </div>
+                    <div style="margin-top:10px; color:rgba(255,255,255,0.65); font-size:0.9rem;">{{#if hero.formatted_date}}{{hero.formatted_date}}{{else}}{{#if hero.published_at}}{{hero.published_at}}{{/if}}{{/if}}</div>
+                  </div>
+
+                  <div class="hero-image col-xl-6 col-12" style="display:flex; align-items:center; justify-content:center;">
+                    {{#if hero.image}}
+                      <img class="hero-photo img-fluid" src="{{hero.image}}" alt="Gambar: {{hero.title}}"/>
+                    {{else}}
+                      <div style="width:100%; height:240px; background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04)); border-radius:12px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.45);">Tidak ada gambar</div>
+                    {{/if}}
+                  </div>
+                </div>
+              {{/with}}
+              {{/if}}
+          {{/if}}
+
+          <!-- Grid artikel lain -->
+          <div style="margin-top:26px;">
+            <div class="row" id="news-grid">
+              {{#if news}}
+                {{#each news}}
+                  {{#if @index}}
+                    <!-- skip index 0 (featured) -->
+                    <div class="col-md-6 col-lg-4 col-12" style="padding:8px;">
+                      <article class="news-card">
+                        <div>
+                          {{#if this.image}}
+                            <img src="{{this.image}}" alt="Gambar: {{this.title}}" style="width:100%; height:140px; object-fit:cover; border-radius:10px; display:block; margin-bottom:12px;"/>
+                          {{/if}}
+                          <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+                            <span style="background:rgba(255,255,255,0.04); color:var(--text); padding:6px 10px; border-radius:14px; font-weight:600; font-size:0.8rem;">{{this.category}}</span>
+                          </div>
+                          <h3 style="margin:0 0 8px 0; font-size:1.05rem;">{{this.title}}</h3>
+                          <p style="margin:0 0 12px 0; color:rgba(255,255,255,0.75);">{{#if this.description}}{{this.description}}{{else}}Ringkasan tidak tersedia.{{/if}}</p>
+                        </div>
+                        <div style="display:flex; align-items:center; justify-content:space-between; margin-top:12px;">
+                          <div style="color:rgba(255,255,255,0.65); font-size:0.85rem;">{{this.source}} {{#if this.formatted_date}}• {{this.formatted_date}}{{else}}{{#if this.published_at}}• {{this.published_at}}{{/if}}{{/if}}</div>
+                          <div>
+                            <a class="btn" style="background:transparent; border:1px solid rgba(255,255,255,0.04); color:var(--text); padding:8px 12px; border-radius:10px; text-decoration:none;" href="{{this.url}}" target="_blank" rel="noopener noreferrer">Baca Artikel</a>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                  {{/if}}
+                {{/each}}
+              {{else}}
+                <div class="col-12">
+                  <div style="padding:18px; background:rgba(255,255,255,0.02); border-radius:10px; text-align:center;">Tidak ada berita yang tersedia. Pastikan server mem-fetch data dari MediaStack dan meneruskan variabel <code>news</code> saat merender view.</div>
+                </div>
+              {{/if}}
+            </div>
+          </div>
+          </div>
+
+          <!-- Pagination controls -->
+          <div class="container" style="margin-top:18px; text-align:center;">
+            <button id="prev-btn" class="btn" style="margin-right:8px;">&larr; Prev</button>
+            <span id="page-info">Halaman {{page}} dari {{totalPages}}</span>
+            <button id="next-btn" class="btn" style="margin-left:8px;">Next &rarr;</button>
+          </div>
+
+          </div> <!-- /#news-container wrapper end when present -->
+        </div>
+      </section>
+
+    </div>
+
+    {{>footer}}
+    <script>
+      (function(){
+        // initial state (safe Handlebars fallbacks)
+        const initialPage = {{#if page}}{{page}}{{else}}1{{/if}};
+        const initialLimit = {{#if limit}}{{limit}}{{else}}12{{/if}};
+        let currentPage = Number(initialPage);
+        let currentLimit = Number(initialLimit);
+
+        const refreshBtn = document.getElementById('refresh-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const pageInfo = document.getElementById('page-info');
+        const newsContainer = document.getElementById('news-container');
+        const newsGrid = document.getElementById('news-grid');
+
+        function setLoading(isLoading){
+          if (refreshBtn) {
+            refreshBtn.disabled = isLoading;
+            if (isLoading) refreshBtn.classList.add('is-loading'); else refreshBtn.classList.remove('is-loading');
+          }
+          if (prevBtn) prevBtn.disabled = isLoading;
+          if (nextBtn) nextBtn.disabled = isLoading;
+        }
+
+        function renderNews(data){
+          // data.news is array; build hero + grid
+          const arr = Array.isArray(data.news) ? data.news : [];
+          if (!newsContainer) return;
+          if (arr.length === 0){
+            newsContainer.innerHTML = '<div style="padding:18px; text-align:center; color:rgba(255,255,255,0.7);">Tidak ada berita yang tersedia.</div>';
+            pageInfo && (pageInfo.textContent = `Halaman ${data.page} dari ${data.totalPages}`);
+            return;
+          }
+
+          const hero = arr[0];
+          const others = arr.slice(1);
+          const heroHtml = `
+            <div class="row" style="align-items:stretch; gap:18px;">
+              <div class="hero-left col-xl-6 col-12">
+                <span class="text-primary">${hero.source || ''}</span>
+                <h2 class="display-3 fw-semibold">${hero.title || ''}</h2>
+                <p class="lead">${hero.description ? (hero.description.length>320?hero.description.slice(0,320)+'...':hero.description) : 'Ringkasan tidak tersedia.'}</p>
+                <div style="margin-top:12px;"><a class="btn btn-primary" href="${hero.url || '#'}" target="_blank" rel="noopener noreferrer">Baca Selengkapnya</a></div>
+                <div style="margin-top:10px; color:rgba(255,255,255,0.65); font-size:0.9rem;">${hero.formatted_date || hero.published_at || ''}</div>
+              </div>
+              <div class="hero-image col-xl-6 col-12" style="display:flex; align-items:center; justify-content:center;">
+                ${hero.image ? `<img class="hero-photo img-fluid" src="${hero.image}" alt="Gambar: ${hero.title}"/>` : '<div style="width:100%; height:240px; background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04)); border-radius:12px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.45);">Tidak ada gambar</div>'}
+              </div>
+            </div>`;
+
+          let gridHtml = '<div style="margin-top:26px;"><div class="row">';
+          if (others.length === 0){
+            gridHtml += '<div class="col-12"><div style="padding:18px; background:rgba(255,255,255,0.02); border-radius:10px; text-align:center;">Tidak ada artikel lain.</div></div>';
+          } else {
+            others.forEach(it => {
+              gridHtml += `
+                <div class="col-md-6 col-lg-4 col-12" style="padding:8px;">
+                  <article class="news-card">
+                    <div>
+                      ${it.image?`<img src="${it.image}" alt="Gambar: ${it.title}" style="width:100%; height:140px; object-fit:cover; border-radius:10px; display:block; margin-bottom:12px;"/>`:''}
+                      <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;"><span style="background:rgba(255,255,255,0.04); color:var(--text); padding:6px 10px; border-radius:14px; font-weight:600; font-size:0.8rem;">${it.category||'lainnya'}</span></div>
+                      <h3 style="margin:0 0 8px 0; font-size:1.05rem;">${it.title}</h3>
+                      <p style="margin:0 0 12px 0; color:rgba(255,255,255,0.75);">${it.description? (it.description.length>200?it.description.slice(0,200)+'...':it.description) : 'Ringkasan tidak tersedia.'}</p>
+                    </div>
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:12px;">
+                      <div style="color:rgba(255,255,255,0.65); font-size:0.85rem;">${it.source||''} ${it.formatted_date? '• ' + it.formatted_date : (it.published_at? '• ' + it.published_at : '')}</div>
+                      <div><a class="btn" style="background:transparent; border:1px solid rgba(255,255,255,0.04); color:var(--text); padding:8px 12px; border-radius:10px; text-decoration:none;" href="${it.url}" target="_blank" rel="noopener noreferrer">Baca Artikel</a></div>
+                    </div>
+                  </article>
+                </div>`;
+            });
+          }
+          gridHtml += '</div></div>';
+
+          newsContainer.innerHTML = heroHtml + gridHtml;
+          // update page info / buttons
+          pageInfo && (pageInfo.textContent = `Halaman ${data.page} dari ${data.totalPages}`);
+          prevBtn && (prevBtn.disabled = data.page <= 1);
+          nextBtn && (nextBtn.disabled = data.page >= data.totalPages);
+        }
+
+        async function loadPage(page, limit, refresh){
+          setLoading(true);
+          try{
+            const resp = await fetch(`/api/berita?page=${page}&limit=${limit}${refresh?'&refresh=1':''}`, { cache: 'no-store' });
+            const j = await resp.json();
+            if (j.newsError){
+              // show error area (we'll replace the diagnostic div)
+              alert('Error: ' + j.newsError);
+            }
+            renderNews(j);
+            currentPage = j.page || page;
+            currentLimit = j.limit || limit;
+          }catch(err){
+            console.error('AJAX fetch error', err);
+            alert('Gagal memuat berita. Lihat console untuk detail.');
+          }finally{ setLoading(false); }
+        }
+
+        if (refreshBtn) refreshBtn.addEventListener('click', function(e){ e.preventDefault(); loadPage(currentPage, currentLimit, true); });
+        if (prevBtn) prevBtn.addEventListener('click', function(e){ e.preventDefault(); if (currentPage>1) loadPage(currentPage-1, currentLimit, false); });
+        if (nextBtn) nextBtn.addEventListener('click', function(e){ e.preventDefault(); loadPage(currentPage+1, currentLimit, false); });
+      })();
+    </script>
+  </body>
+</html>

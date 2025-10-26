@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="260" viewBox="0 0 900 260">
+  <style>
+    .box { fill:#f7f9fb; stroke:#2b2b2b; stroke-width:1; rx:6; }
+    .text { font-family: Arial, Helvetica, sans-serif; font-size:13px; fill:#0b0b0b }
+    .arrow { stroke:#0b0b0b; stroke-width:1.6; fill:none; }
+    .subtitle { font-size:12px; fill:#444 }
+  </style>
+
+  <!-- Boxes -->
+  <rect x="20" y="20" width="140" height="40" class="box"/>
+  <text x="90" y="45" text-anchor="middle" class="text">Client</text>
+
+  <rect x="200" y="20" width="140" height="40" class="box"/>
+  <text x="270" y="45" text-anchor="middle" class="text">Server</text>
+
+  <rect x="380" y="20" width="140" height="40" class="box"/>
+  <text x="450" y="45" text-anchor="middle" class="text">Geocode</text>
+
+  <rect x="560" y="20" width="140" height="40" class="box"/>
+  <text x="630" y="45" text-anchor="middle" class="text">Forecast</text>
+
+  <!-- Providers -->
+  <rect x="560" y="110" width="140" height="40" class="box"/>
+  <text x="630" y="135" text-anchor="middle" class="text">Weatherstack</text>
+
+  <rect x="720" y="110" width="140" height="40" class="box"/>
+  <text x="790" y="135" text-anchor="middle" class="text">Open‑Meteo</text>
+
+  <!-- Arrows -->
+  <path d="M160 40 L200 40" class="arrow" marker-end="url(#arrow)" />
+  <path d="M340 40 L380 40" class="arrow" marker-end="url(#arrow)" />
+  <path d="M520 40 L560 40" class="arrow" marker-end="url(#arrow)" />
+  <path d="M700 40 L740 40" class="arrow" marker-end="url(#arrow)" />
+
+  <!-- Server -> Geocode / Forecast flow -->
+  <path d="M340 60 L380 80" class="arrow" marker-end="url(#arrow)" />
+  <path d="M520 60 L560 80" class="arrow" marker-end="url(#arrow)" />
+
+  <!-- Forecast -> Providers -->
+  <path d="M700 120 L700 150 L700 150 L700 150" class="arrow" />
+  <path d="M630 140 L700 140" class="arrow" marker-end="url(#arrow)" />
+  <path d="M700 140 L790 140" class="arrow" marker-end="url(#arrow)" />
+
+  <!-- Labels -->
+  <text x="110" y="70" class="subtitle" text-anchor="middle">GET /infoCuaca?address=...</text>
+  <text x="290" y="95" class="subtitle" text-anchor="middle">geocode → {lat,lon}</text>
+  <text x="460" y="115" class="subtitle" text-anchor="middle">prediksiCuaca(lat,lon)</text>
+  <text x="650" y="95" class="subtitle" text-anchor="middle">try Weatherstack → fallback Open‑Meteo</text>
+
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,10 L10,5 z" fill="#0b0b0b" />
+    </marker>
+  </defs>
+</svg>

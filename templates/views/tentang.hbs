@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html>
+	{{>head}}
+	<!--
+		Halaman Tentang (About)
+		- Memperkenalkan pembuat dan menjelaskan fungsi aplikasi kepada pengguna biasa.
+		- class `no-scroll` diterapkan untuk menonaktifkan scroll halaman sesuai permintaan tugas;
+			jika nanti ingin mengizinkan scroll, hapus kelas ini dan gunakan area yang dapat di-scroll.
+	-->
+	<body>
+		<div class="main-content">
+			{{>header}}
+			<div class="page-heading">
+				<div class="container">
+					<h1 class="page-title">{{judul}}</h1>
+				</div>
+			</div>
+			<section id="aboutme" class="about-hero">
+				<div class="container container-inner">
+					<div class="row d-flex align-items-center">
+						<div class="col-xl-6 col-lg-6 col-md-6 col-12">
+							<div class="hero-left">
+								<span class="text-primary">Halo, selamat datang</span>
+								<h1 class="display-3 fw-semibold mt-4 mb-4">Aku Fattan Naufan Islami</h1>
+								<p class="lead mb-6">Saya suka belajar hal baru dan membuat karya digital yang menggabungkan kreativitas dan teknologi.</p>
+								<a href="/bantuan" class="btn btn-pill" aria-label="Buka halaman kontak">Contact Me</a>
+							</div>
+						</div>
+						<div class="col-xl-6 col-lg-6 col-md-6 col-12">
+							<div class="hero-image position-relative">
+								<img src="/img/Foto Profile.png" alt="Foto Fattan Naufan Islami" class="img-fluid rounded-4 hero-photo">
+								<div class="img-decor" aria-hidden="true"></div>
+							</div>
+						</div>
+					</div>
+					<!-- Informasi aplikasi: ringkasan singkat di bawah hero -->
+					<div class="row mt-4">
+						<div class="col-12">
+							<div class="about-app-info">
+								<h2 class="about-app-title">Tentang <span class="accent">Strato Nimbus</span></h2>
+								<p class="about-app-subtitle">Strato Nimbus membantu kamu mengecek cuaca dengan cepat dan mudah. Masukkan nama kota atau alamat, lalu dapatkan ringkasan kondisi saat ini: suhu, kelembapan, kecepatan angin, visibilitas, dan indeks UV yang disajikan secara sederhana dan mudah dibaca.</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- Panel ringkasan: Keahlian, Pengalaman, Pendidikan, Prestasi -->
+					<div class="row mt-4">
+						<div class="col-12">
+							<div class="profile-panels timeline-panel">
+								<!-- Keahlian Teknis -->
+								<section class="panel">
+									<div class="panel-header">
+										<div class="panel-icon" aria-hidden="true">
+											<!-- simple code icon (SVG) -->
+											<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 7L12 2L21 7V17L12 22L3 17V7Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+										</div>
+										<h3>Keahlian Teknis</h3>
+									</div>
+									<div class="skills-tags">
+										<span class="skill">API Integration</span>
+										<span class="skill">C</span>
+										<span class="skill">C++</span>
+										<span class="skill">Java</span>
+										<span class="skill">JavaScript</span>
+										<span class="skill">Node.js</span>
+										<span class="skill">Python</span>								
+										<span class="skill">TypeScript</span>				
+										<span class="skill">UI/UX Design</span>
+									</div>
+								</section>
+
+								<!-- Pengalaman Kerja -->
+								<section class="panel">
+									<div class="panel-header">
+										<div class="panel-icon work" aria-hidden="true">
+											<!-- present/gift SVG (compact) -->
+											<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path d="M20 8v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+												<path d="M3 8l9-5 9 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+												<path d="M12 3v16" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+												<path d="M7 8v3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+												<path d="M17 8v3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+											</svg>
+										</div>
+										<h3>Pengalaman Kerja</h3>
+									</div>
+									<div class="timeline-item">
+										<strong>Technical Support</strong>
+										<div class="muted"><span class="company">Primadata Academy</span> • <span class="date">2020 - Sekarang</span></div>
+										<p>Menangani masalah teknis perangkat keras dan lunak, serta memastikan perangkat lab komputer siap digunakan untuk mendukung proses pembelajaran digital.</p>
+									</div>
+									<div class="timeline-item">
+										<strong>Network Technician</strong>
+										<div class="muted"><span class="company">Internet Cafe</span> • <span class="date">2017 - 2019</span></div>
+										<p>Mengonfigurasi dan mengelola jaringan lokal serta menyelesaikan masalah konektivitas untuk mendukung kelancaran operasional harian pelanggan.</p>
+									</div>
+								</section>
+
+								<!-- Pendidikan -->
+								<section class="panel">
+									<div class="panel-header">
+										<div class="panel-icon edu" aria-hidden="true">
+											<!-- graduation cap SVG -->
+											<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L1 7l11 5 9-4.09V17h2V7L12 2z" fill="currentColor"/><path d="M11 12.13V20h2v-7.87l-1 .45-1-.45z" fill="currentColor"/></svg>
+										</div>
+										<h3>Pendidikan</h3>
+									</div>
+									<div class="education-item">
+										<strong>Sarjana Teknik Informatika</strong>
+										<div class="muted"><span class="edu-institution">Universitas Negeri Padang</span></div>
+										<div class="education-meta"><span class="date">2023 - sekarang</span><span class="meta-dot">•</span><span class="ipk">IPK: 3.80/4.00</span></div>
+									</div>
+								</section>
+
+								<!-- Prestasi & Sertifikasi -->
+								<section class="panel">
+									<div class="panel-header">
+										<div class="panel-icon cert" aria-hidden="true">
+											<!-- ribbon / award SVG -->
+											<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a4 4 0 100 8 4 4 0 000-8zm0 10c-4.418 0-8 1.79-8 4v4h16v-4c0-2.21-3.582-4-8-4z" fill="currentColor"/></svg>
+										</div>
+										<h3>Prestasi &amp; Sertifikasi</h3>
+									</div>
+									<ul class="cert-list">
+										<li>Juara 1 Lomba Mengetik Cepat Se-Sumatera Barat</li>
+										<li>Sertifikasi AWS Certified Solutions Architect</li>
+									</ul>
+								</section>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		{{>footer}}
+	</body>
+</html>
